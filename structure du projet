@@ -1,0 +1,20 @@
+solana-hft-bot/
+├── 📂 config/
+│   ├── 📄 .env                # Variables d'environnement
+│   └── 📄 settings.json       # Paramètres ajustables
+├── 📂 core/
+│   ├── 📄 trading-engine.js   # Moteur principal
+│   ├── 📄 risk-manager.js    # Gestion du budget/risque
+│   └── 📄 strategy-manager.js # Stratégies de trading
+├── 📂 data/
+│   ├── 📄 db.js               # Gestion base SQLite
+│   ├── 📄 chainlink.js        # Intégration Oracle
+│   └── 📄 market-data.js      # Flux de marché
+├── 📂 utils/
+│   ├── 📄 backtester.js       # Backtesting automatisé
+│   ├── 📄 optimizer.js        # Machine Learning
+│   └── 📄 alerts.js           # Notifications Telegram
+├── 📂 monitoring/
+│   ├── 📄 prometheus-exporter.js # Métriques pour Grafana
+│   └── 📄 dashboard.json      # Config Grafana
+└── 📄 main.js                 # Point d'entrée

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot HFT Solana</title>
+    
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Polyfill minimal -->
+    <script>
+        // Configuration globale minimale
+        window.global = window;
+        window.process = {
+            env: {},
+            browser: true,
+            version: '',
+            nextTick: function(fn) { setTimeout(fn, 0); }
+        };
+
+        // Fonction utilitaire pour Buffer
+        function createBuffer() {
+            return {
+                from: function(data, encoding) {
+                    if (encoding === 'base64') {
+                        const binary = atob(data);
+                        const bytes = new Uint8Array(binary.length);
+                        for(let i = 0; i < binary.length; i++) {
+                            bytes[i] = binary.charCodeAt(i);
+                        }
+                        return bytes;
+                    }
+                    if (typeof data === 'string') {
+                        const encoder = new TextEncoder();
+                        return encoder.encode(data);
+                    }
+                    return new Uint8Array(data);
+                },
+                alloc: function(size) {
+                    return new Uint8Array(size);
+                },
+                isBuffer: function(obj) {
+                    return obj instanceof Uint8Array;
+                }
+            };
+        }
+
+        // Définir Buffer globalement
+        if (typeof window.Buffer === 'undefined') {
+            window.Buffer = createBuffer();
+        }
+    </script>
+
+    <!-- Scripts Solana avec versions spécifiques -->
+    <script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/wallet-adapter-base@0.9.23/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/wallet-adapter-phantom@0.9.15/lib/index.iife.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <!-- Scripts de l'application -->
+    <script type="module" src="/index.jsx"></script>
+</body>
+</html> 

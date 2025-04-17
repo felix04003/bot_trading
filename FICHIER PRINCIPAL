@@ -1,0 +1,52 @@
+// Remplacer le chargement conditionnel par
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+});
+const { initBot } = require('./core/trading-engine');
+const { startMonitoring } = require('./monitoring/prometheus-exporter');
+const { scheduleJobs } = require('./utils/scheduler');
+const { initDatabase } = require('./core/database');
+
+// Vérification des variables d'environnement
+const requiredEnvVars = ['SOLANA_RPC_URL', 'WALLET_PRIVATE_KEY', 'MONGO_URI'];
+requiredEnvVars.forEach(varName => {
+  if (!process.env[varName]) {
+    console.error(`[❌] Variable d'environnement manquante : ${varName}`);
+    process.exit(1);
+  }
+});
+
+// Validation du format de la clé privée
+if (!process.env.WALLET_PRIVATE_KEY.match(/^[0-9a-fA-F]{64}$/)) {
+  console.error('[❌] Format de clé privée invalide');
+  process.exit(1);
+}
+
+// Vérification de l'environnement de production
+if (process.env.NODE_ENV === 'production' && !process.env.WALLET_PRIVATE_KEY.startsWith('encrypted:')) {
+  console.error('[🔒] Clé privée non chiffrée en production!');
+  process.exit(1);
+}
+
+async function main() {
+  // 1. Initialisation
+  await initDatabase();
+  await startMonitoring(); // Pour Grafana
+
+  // 2. Lancer le bot de trading
+  const bot = await initBot({
+    rpcUrl: process.env.SOLANA_RPC_URL,
+    walletKey: process.env.WALLET_PRIVATE_KEY
+  });
+
+  // 3. Planifier les tâches périodiques
+  scheduleJobs({
+    backtesting: '0 0 * * 0', // Tous les dimanches
+    budgetReset: '0 0 * * *',  // Tous les jours à minuit
+    reporting: '0 9 * * *'     // Tous les jours à 9h
+  });
+
+  console.log('[🚀] Bot HFT Solana opérationnel');
+}
+
+main().catch(console.error);

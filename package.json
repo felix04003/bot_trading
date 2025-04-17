@@ -1,0 +1,14 @@
+{
+  "name": "solana-hft-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bot de trading haute fréquence pour Solana",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.87.6",
+    "express": "^4.18.2"
+  }
+}

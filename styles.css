@@ -1,0 +1,74 @@
+body {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.connected {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.disconnected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+button {
+    background-color: #9945FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #7B3FCC;
+}
+
+.metrics {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.transaction-history {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.transaction {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f1f3f5;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.error {
+    color: #c62828;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+} 
